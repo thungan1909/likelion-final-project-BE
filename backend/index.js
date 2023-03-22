@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const authRoute = require("./routes/auth.js");
 const userRoute = require("./routes/user.js");
+const ideaRoute = require("./routes/idea.js")
 dotenv.config();
 
 mongoose.connect(process.env.MONGODB_URL, () => {
@@ -18,6 +19,7 @@ app.use(express.json());
 //ROUTES
 app.use("/v1/auth", authRoute);
 app.use("/v1/user", userRoute);
+app.use("/v1/idea", ideaRoute);
 
 app.listen(process.env.PORT, () => {
   console.log("Server is running");
