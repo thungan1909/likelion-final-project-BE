@@ -9,8 +9,10 @@ const router = require("express").Router();
 //GET ALL USERS
 router.get("/", verifyToken, userController.getAllUsers);
 
+//GET NUMBER OF USERS
+router.get("/count", verifyToken, userController.getNewUsersInMonth);
 //GET USER BY ID
-router.get("/:id", verifyToken, userController.getUserById);
+router.get("/:id",  userController.getUserById);
 
 //DELETE USER
 router.delete(
