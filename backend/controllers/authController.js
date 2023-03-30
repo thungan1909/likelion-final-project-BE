@@ -8,9 +8,17 @@ const authController = {
   //REGISTER
   registerUser: async (req, res) => {
     try {
+   
+      const checkUser = await User.findOne({ username: req.body.username });
+      if (checkUser) {
+        return res.status(404).json("Username exists");
+      }
+      const checkEmail = await User.findOne({ username: req.body.email });
+      if (checkEmail) {
+        return res.status(404).json("Email exists");
+      }
       const salt = await bcrypt.genSalt(10);
       const hashed = await bcrypt.hash(req.body.password, salt);
-
       //Create new user
       const newUser = await new User({
         username: req.body.username,
@@ -52,14 +60,16 @@ const authController = {
   loginUser: async (req, res) => {
     try {
       const user = await User.findOne({ username: req.body.username });
+
+      if (!user) {
+        return res.status(404).json("Incorrect username or password");
+      }
       const validPassword = await bcrypt.compare(
         req.body.password,
         user.password
       );
-      if (!user) {
-        res.status(404).json("Incorrect username");
-      } else if (!validPassword) {
-        res.status(404).json("Incorrect password");
+      if (!validPassword) {
+        res.status(404).json("Incorrect username or password");
       } else if (user && validPassword) {
         //Generate access token
         const accessToken = authController.generateAccessToken(user);
@@ -77,6 +87,7 @@ const authController = {
         res.status(200).json({ ...others, accessToken, refreshToken });
       }
     } catch (err) {
+      console.log("ERROR", err);
       res.status(500).json(err);
     }
   },

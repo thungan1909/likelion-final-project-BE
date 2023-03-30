@@ -6,6 +6,8 @@ const router = require("express").Router();
 router.post("/add", ideaController.createIdea);
 //get all idea
 router.get("/", ideaController.getAllIdeas);
+//GET NEW IDEAS IN MONTH
+router.get("/new-ideas-month", verifyToken, ideaController.getNewIdeasInMonth);
 //GET NEW IDEAS PER WEEK IN MONTH
 router.get("/new-ideas-per-week-in-month", verifyToken, ideaController.getNewIdeasInPerWeekMonth);
 

@@ -11,6 +11,24 @@ const ideaController = {
     }
   },
 
+    // GET NEW USERS  IN MONTH
+    getNewIdeasInMonth: async (req, res) => {
+      const now = moment();
+      const startOfMonth = moment().startOf("month");
+  
+      try {
+        const  ideas = await Idea.find({
+          createdAt: {
+            $gte: startOfMonth.toDate(),
+            $lt: now.toDate(),
+          },
+        });
+  
+        res.status(200).json(ideas);
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    },
    // GET NEW IDEAS PER WEEK IN MONTH
    getNewIdeasInPerWeekMonth: async (req, res) => {
     try {
