@@ -145,6 +145,16 @@ const ideaController = {
       res.status(500).json(err);
     }
     
-  }
+  },
+  //get idea by idea id 
+    getIdeaById: async (req, res) => {
+      try {
+        const idea = await Idea.findById(req.params.id);
+        
+        res.status(200).json(idea);
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    },
 };
 module.exports = ideaController;
