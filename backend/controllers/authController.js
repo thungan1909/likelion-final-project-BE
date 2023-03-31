@@ -8,15 +8,15 @@ const authController = {
   //REGISTER
   registerUser: async (req, res) => {
     try {
-   
       const checkUser = await User.findOne({ username: req.body.username });
       if (checkUser) {
-        return res.status(404).json("Username exists");
+        return res.status(404).json("This username is already taken");
       }
-      const checkEmail = await User.findOne({ username: req.body.email });
+      const checkEmail = await User.findOne({ email: req.body.email });
       if (checkEmail) {
-        return res.status(404).json("Email exists");
+        return res.status(404).json("This email is already taken");
       }
+
       const salt = await bcrypt.genSalt(10);
       const hashed = await bcrypt.hash(req.body.password, salt);
       //Create new user
@@ -30,6 +30,7 @@ const authController = {
       const user = await newUser.save();
       res.status(200).json(user);
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   },
