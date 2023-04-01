@@ -143,6 +143,23 @@ const userController = {
       res.status(500).json(err);
     }
   },
-};
+
+  //search username:
+  searchUserByUsername: async (req, res) =>{
+    const { query } = req.query;
+    try{
+      const user = await User.find({
+        $or: [
+          { username: { $regex: query, $options: 'i' } },
+          { email: { $regex: query, $options: 'i' } }
+        ]
+      });
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+}
+
 
 module.exports = userController;
