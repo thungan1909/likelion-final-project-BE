@@ -144,14 +144,15 @@ const userController = {
     }
   },
 
-  //search username:
-  searchUserByUsername: async (req, res) =>{
+  //search user
+  searchUser: async (req, res) =>{
     const { query } = req.query;
+    const queryString = String(query); // Chuyển đổi giá trị của query thành chuỗi
     try{
       const user = await User.find({
         $or: [
-          { username: { $regex: query, $options: 'i' } },
-          { email: { $regex: query, $options: 'i' } }
+          { username: { $regex: queryString, $options: "i" } },
+          { email: { $regex: queryString, $options: "i" } }
         ]
       });
       res.json(user);

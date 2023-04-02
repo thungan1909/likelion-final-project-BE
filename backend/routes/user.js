@@ -26,5 +26,6 @@ router.delete(
 
 //UPDATE USER
 router.put("/:id/update", verifyTokenAndUser, userController.updateUser);
-
+//Seach
+router.get("/search/:query", verifyToken, userController.searchUser);
 module.exports = router;
