@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    likedIdeas: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Idea' }]
   },
   { timestamps: true }
 );

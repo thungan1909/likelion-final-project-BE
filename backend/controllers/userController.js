@@ -146,7 +146,7 @@ const userController = {
 
   //search user
   searchUser: async (req, res) =>{
-    const { query } = req.query;
+    const { query } = req.params;
     const queryString = String(query); // Chuyển đổi giá trị của query thành chuỗi
     try{
       const user = await User.find({
@@ -160,6 +160,19 @@ const userController = {
       res.status(500).json({ message: error.message });
     }
   },
+//populate của Mongoose để lấy thông tin chi tiết về các ý tưởng đã thích bởi người dùng.
+// Sau đó, chúng ta trả về danh sách các ý tưởng đó trong phản hồi JSON.
+  getLikedIdeasByUserId: async (req, res) => {
+    try {
+      const user = await User.findById(req.params.userId).populate('likedIdeas');
+      if (!user) {
+        return res.status(404).json("User not found");
+      }
+      res.status(200).json(user.likedIdeas);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
 }
 
 

@@ -9,13 +9,16 @@ const router = require("express").Router();
 //GET ALL USERS
 router.get("/", verifyToken, userController.getAllUsers);
 
-
 //GET NEW USERS IN MONTH
 router.get("/new-users-month", verifyToken, userController.getNewUsersInMonth);
 //GET NEW USERS PER WEEK IN MONTH
-router.get("/new-users-per-week-in-month", verifyToken, userController.getNewUsersInPerWeekMonth);
+router.get(
+  "/new-users-per-week-in-month",
+  verifyToken,
+  userController.getNewUsersInPerWeekMonth
+);
 //GET USER BY ID
-router.get("/:id",  userController.getUserById);
+router.get("/:id", userController.getUserById);
 
 //DELETE USER
 router.delete(
@@ -28,4 +31,11 @@ router.delete(
 router.put("/:id/update", verifyTokenAndUser, userController.updateUser);
 //Seach
 router.get("/search/:query", verifyToken, userController.searchUser);
+
+//Get user's idea liked
+router.get(
+  "/:id/liked-idea",
+  verifyToken,
+  userController.getLikedIdeasByUserId
+);
 module.exports = router;
