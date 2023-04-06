@@ -20,6 +20,8 @@ router.post("/like/:id", verifyToken, ideaController.likeIdeaByIdeaId);
 router.post("/unlike/:id", verifyToken, ideaController.unlikeIdeaByIdeaId);
 //GET IDEA BY AUTHOR
 router.get("/author/:id", verifyToken, ideaController.getAllIdeasByAuthor);
+//Seach
+router.get("/search/:query", verifyToken, ideaController.searchIdea);
 
 
 module.exports = router;

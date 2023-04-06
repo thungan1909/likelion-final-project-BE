@@ -39,7 +39,6 @@ const ideaController = {
   },
     //GetIdeaByUserID
     getAllIdeasByAuthor: async (req, res) => {
-      console.log(req.params.id);
       const authorId = req.params.id;
       // Chuyển đổi authorId sang ObjectId
       const authorObjectId = mongoose.Types.ObjectId(authorId);
@@ -234,6 +233,27 @@ const ideaController = {
       res.status(500).json(err);
     }
   },
+
+  //SEARCH IDEA
+  searchIdea : async (req, res) =>{
+    const {query} = query.params;
+    const queryString = String(query);
+    try {
+      const ideas = await Idea.find({
+        $or: [
+          
+            {content: {$regex: queryString, $options: "i"}},
+
+          
+        ]
+      });
+      res.json(ideas);
+    }
+    catch (error) {
+      res.status(500).json({message: error.message});
+    }
+  },
+
 
  
 };
